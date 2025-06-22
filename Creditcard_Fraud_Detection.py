@@ -1,0 +1,106 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[5]:
+
+
+#import the required libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LogisticRegression
+
+
+# In[7]:
+
+
+#Load the dataset 
+df=pd.read_csv("Credit_card.csv")
+print(df.head(10))
+
+
+# In[9]:
+
+
+print(df.describe())
+
+
+# In[11]:
+
+
+#define x and y
+x=df.drop('Class',axis=1)
+y=df['Class']
+print(x.shape)
+print(y.shape)
+
+
+# In[13]:
+
+
+#Data preprocessing
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,random_state=42,test_size=0.2)
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train)
+x_test_scaled = scaler.transform(x_test)
+model=LogisticRegression(max_iter=1000)
+model.fit(x_train_scaled,y_train)
+y_pred=model.predict(x_test_scaled)
+
+
+# In[15]:
+
+
+#Finding the Fraud and Valid transactions
+fraud_transactions=df[df['Class']==0]
+valid_transactions=df[df['Class']==1]
+print(f"No of Fraud/Invalid Transactions:{len(df[df['Class']==0])}")
+print(f"No of Valid/Safe Transactions:{len(df[df['Class']==1])}")
+
+
+# In[17]:
+
+
+#To know the information of the Invalid trasactions
+print("Records of the Fraud transactions:")
+print(fraud_transactions.Amount.describe())
+
+
+# In[19]:
+
+
+#To Know the information of the valid transactions
+print("Records of valid transactions:")
+print(valid_transactions.Amount.describe())
+
+
+# In[21]:
+
+
+#finding the confusion matrix and Classification report
+from sklearn.metrics import classification_report,confusion_matrix
+print("Confusion Matrix:")
+print(confusion_matrix(y_test,y_pred))
+print("Classification Report:")
+print(classification_report(y_test,y_pred))
+
+
+# In[23]:
+
+
+#plot the correlation matrix
+corr_mat = df.corr()
+plt.figure(figsize=(12,10))
+sns.heatmap(corr_mat, cmap='coolwarm', vmax=1.0, vmin=-1.0, annot=False, fmt='.2f')
+plt.title("Correlation Matrix of Features")
+plt.show()
+
+
+# In[ ]:
+
+
+
+
