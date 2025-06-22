@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[5]:
-
-
 #import the required libraries
 import numpy as np
 import pandas as pd
@@ -12,21 +6,10 @@ import seaborn as sns
 from sklearn.linear_model import LogisticRegression
 
 
-# In[7]:
-
-
 #Load the dataset 
 df=pd.read_csv("Credit_card.csv")
 print(df.head(10))
-
-
-# In[9]:
-
-
 print(df.describe())
-
-
-# In[11]:
 
 
 #define x and y
@@ -34,9 +17,6 @@ x=df.drop('Class',axis=1)
 y=df['Class']
 print(x.shape)
 print(y.shape)
-
-
-# In[13]:
 
 
 #Data preprocessing
@@ -51,9 +31,6 @@ model.fit(x_train_scaled,y_train)
 y_pred=model.predict(x_test_scaled)
 
 
-# In[15]:
-
-
 #Finding the Fraud and Valid transactions
 fraud_transactions=df[df['Class']==0]
 valid_transactions=df[df['Class']==1]
@@ -61,23 +38,14 @@ print(f"No of Fraud/Invalid Transactions:{len(df[df['Class']==0])}")
 print(f"No of Valid/Safe Transactions:{len(df[df['Class']==1])}")
 
 
-# In[17]:
-
-
 #To know the information of the Invalid trasactions
 print("Records of the Fraud transactions:")
 print(fraud_transactions.Amount.describe())
 
 
-# In[19]:
-
-
 #To Know the information of the valid transactions
 print("Records of valid transactions:")
 print(valid_transactions.Amount.describe())
-
-
-# In[21]:
 
 
 #finding the confusion matrix and Classification report
@@ -88,19 +56,9 @@ print("Classification Report:")
 print(classification_report(y_test,y_pred))
 
 
-# In[23]:
-
-
 #plot the correlation matrix
 corr_mat = df.corr()
 plt.figure(figsize=(12,10))
 sns.heatmap(corr_mat, cmap='coolwarm', vmax=1.0, vmin=-1.0, annot=False, fmt='.2f')
 plt.title("Correlation Matrix of Features")
 plt.show()
-
-
-# In[ ]:
-
-
-
-
